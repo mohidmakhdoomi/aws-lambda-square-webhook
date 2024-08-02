@@ -7,8 +7,8 @@ import {SQSClient, GetQueueUrlCommand, SendMessageCommand} from "@aws-sdk/client
 const paramStorePort = "2773"
 const paramStoreField = "SIGNATURE_KEY"
 
-const queueName = "test-main-queue"
-const queueRegion = "us-east-2"
+const queueName = process.env.QUEUE_NAME
+const queueRegion = process.env.AWS_REGION
 
 export const handler = async (event) => {
     const paramStoreURL = "http://localhost:" + paramStorePort + "/systemsmanager/parameters/get?name=" + paramStoreField
@@ -104,6 +104,15 @@ export const handler = async (event) => {
         };
         const getUrlCommand = new GetQueueUrlCommand(input);
         const queueURL = (await sqs.send(getUrlCommand)).QueueUrl;
+        const bodyParsed = JSON.parse(event.body);
+        let groupId
+        switch (bodyParsed.type.split('.')[0]) {
+            case "order":
+                groupId = "order"
+                break;
+            default:
+                groupId = bodyParsed.type
+        }
 
         const params = {
             MessageBody: event.body,
@@ -117,7 +126,9 @@ export const handler = async (event) => {
                     DataType: "String",
                     StringValue: JSON.stringify(event.requestContext)
                 }
-            }
+            },
+            MessageDeduplicationId: bodyParsed.event_id,
+            MessageGroupId: groupId,
         };
         const command = new SendMessageCommand(params);
         const sendToQueue = await sqs.send(command);

@@ -15,10 +15,10 @@ This Lambda function has a few uses:
 3. Get the Queue URL for an existing SQS and then send the request (event) body to the queue to be processed separately
 4. Send a response to the API gateway and thus to Square
 
-to use clone, modify index.js as needed, and then run the following commands:<br>
-`npm install` <br>
-`zip -r lambdaSquareDeploy.zip ./index.js ./package.json ./package-lock.json ./node_modules/*`
+to use clone, modify lambdaSquareDeploy.js as needed, and then run the following commands:<br>
+`npm run build` <br>
+`npm run package`
 
 then you can push the new ZIP to an existing Lambda function using AWS CLI like so:<br>
-`aws lambda update-function-code --function-name <YOUR_FUNCTION> --zip-file fileb://lambdaSquareDeploy.zip`
-<br>or can manually upload the ZIP through the AWS console.
+`aws --profile <YOUR_PROFILE> lambda update-function-code --function-name <YOUR_FUNCTION> --zip-file fileb://lambdaSquareDeploy.zip`
+<br>or can manually upload the lambdaSquareDeploy.zip through the AWS console.

@@ -1,5 +1,3 @@
-/* global fetch */
-
 import {createHmac} from "crypto";
 import {WebhooksHelper} from 'square';
 import {SQSClient, GetQueueUrlCommand, SendMessageCommand} from "@aws-sdk/client-sqs";

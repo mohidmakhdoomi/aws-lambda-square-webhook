@@ -7,7 +7,7 @@ API Gateway > Lambda function > SQS
 * The AWS HTTP API Gateway is what is used for the Square webhook notification URL
   * The gateway simply passes the request to the Lambda function through integration
 * Also using AWS Parameter Store to store the Square SIGNATURE_KEY and thus needed to use the extension "AWS Parameters and Secrets Lambda Extension"
-* Due to using Square SDK which is not available directly in AWS, need to zip up Square SDK with my JavaScript code and upload it to the AWS Lambda function
+* Due to using Square SDK which is not available directly in AWS, need to zip up Square SDK with the JavaScript code and upload it to the AWS Lambda function
 
 This Lambda function has a few uses:
 1. Receive the POST request (event) from the API gateway which was sent by Square
